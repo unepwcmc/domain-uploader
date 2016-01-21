@@ -7,7 +7,7 @@ require 'graph_generator'
 
 namespace :du do
   desc 'uploader test'
-  task :uploader, [:name] => :environment do |t, args|
+  task :uploader, [:name, :host] => :environment do |t, args|
 
     Rails.application.eager_load!
     puts "# Application fully loaded!"
@@ -21,7 +21,7 @@ namespace :du do
     graph = GraphGenerator.generate_graph(domain)
     domain_hash.merge!({ 'graph' => graph })
 
-    HTTParty.post("http://localhost:3000/api/projects_domains/upload_model", {
+    HTTParty.post("#{args[:host]}/api/projects_domains/upload_model", {
       :body => domain_hash.to_json,
       #:basic_auth => { :username => api_key },
       :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json'}
