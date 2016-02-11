@@ -21,7 +21,7 @@ namespace :du do
     graph = GraphGenerator.generate_graph(domain)
     domain_hash.merge!({ 'graph' => graph })
 
-    HTTParty.post("#{args[:host]}/api/projects_domains/upload_model", {
+    HTTParty.post("#{args[:host]}/api/v1/projects_domains/upload_model", {
       :body => domain_hash.to_json,
       #:basic_auth => { :username => api_key },
       :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json'}
