@@ -7,7 +7,7 @@ require 'graph_generator'
 
 namespace :du do
   desc 'uploader test'
-  task :uploader, [:name, :host] => :environment do |t, args|
+  task :uploader, [:name, :host, :token] => :environment do |t, args|
 
     Rails.application.eager_load!
     puts "# Application fully loaded!"
@@ -24,7 +24,7 @@ namespace :du do
     HTTParty.post("#{args[:host]}/api/v1/projects_domains/upload_model", {
       :body => domain_hash.to_json,
       #:basic_auth => { :username => api_key },
-      :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json'}
+      :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json', 'X-Authentication-Token' => args[:token]}
     })
 
     puts "# Done!"
